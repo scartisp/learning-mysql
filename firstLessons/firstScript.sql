@@ -82,5 +82,30 @@ SELECT * FROM parks_and_recreation.employee_demographics dem INNER JOIN parks_an
 	ON  dem.employee_id = sal.employee_id
  JOIN parks_and_recreation.parks_departments pd 
 	ON sal.dept_id = pd.department_id; #conceptually, the first join happens, creating a temporary table, which is then joined with the pd table, resulting in the final table 
-    
-SELECT * FROM parks_and_recreation.parks_departments;
+SELECT *
+FROM parks_and_recreation.parks_departments;
+
+#unions    
+SELECT first_name, last_name
+FROM parks_and_recreation.employee_demographics
+UNION # this defaults as a UNION DISTINCT
+SELECT first_name, last_name
+FROM parks_and_recreation.employee_salary;
+
+SELECT first_name, last_name
+FROM parks_and_recreation.employee_demographics
+UNION ALL
+SELECT first_name, last_name
+FROM parks_and_recreation.employee_salary;
+
+SELECT first_name, last_name, 'Old man' AS label
+FROM parks_and_recreation.employee_demographics
+WHERE age > 40 AND gender = 'Male'
+UNION
+SELECT first_name, last_name, 'Old lady' AS age_class
+FROM parks_and_recreation.employee_demographics
+WHERE age > 40 AND gender = 'Female'
+UNION
+SELECT first_name, last_name, 'highly Paid' AS label
+FROM parks_and_recreation.employee_salary
+WHERE salary > 70000;
